@@ -18,6 +18,8 @@ FOOD_COLOR = (231, 76, 60)
 
 running = True
 
+score = 0
+
 # starts at (5, 10) with a 3-block body length
 snake_body = [[5, 10], [4, 10], [3, 10]]
 snake_direction = "RIGHT"
@@ -63,6 +65,7 @@ while running:
     snake_body.insert(0, new_head)
 
     if new_head == food_position:
+        score += 1
         food_position = [random.randint(0, GRID_COUNT - 1), random.randint(0, GRID_COUNT - 1)]
     else:
         snake_body.pop()
@@ -76,8 +79,13 @@ while running:
         segment_rect = pygame.Rect(segment[0] * GRID_SIZE, segment[1] * GRID_SIZE, GRID_SIZE - 2, GRID_SIZE - 2)
         pygame.draw.rect(screen, SNAKE_COLOR, segment_rect)
 
+    # display score on game screen
+    font = pygame.font.SysFont(None, 40)
+    score_text = font.render(f"Score: {score}", True, (255, 255, 255))
+    screen.blit(score_text, (25, 25))
+
     pygame.display.flip()
-    
+    print(f"Score: {score}")
     clock.tick(10)
 
 pygame.quit()
